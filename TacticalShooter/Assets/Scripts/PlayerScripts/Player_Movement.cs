@@ -24,6 +24,7 @@ public class Player_Movement : MonoBehaviour
     private float currentSpeed;
     Vector3 lastPosition = Vector3.zero;
     public TextMeshProUGUI speedText;
+    int speedTextInt;
 
 
 
@@ -31,19 +32,18 @@ public class Player_Movement : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        StartCoroutine(Calculations());
     }
 
     void Update()
     {
         Move();
     }
-    private void LateUpdate()
-    {
-        Calculations();
-    }
+   
 
     void Move() 
     {
+        //Basic Movement
         if (controller.isGrounded)
         {
             horizontalInput = Input.GetAxis("Horizontal");
@@ -54,14 +54,23 @@ public class Player_Movement : MonoBehaviour
 
         moveDirection.y -= gravity * Time.deltaTime;
         controller.Move(moveDirection * Time.deltaTime);
-
+        
 
     }
-    void Calculations() 
+    IEnumerator Calculations() 
     {
-        currentSpeed = (transform.position - lastPosition).magnitude;
-        lastPosition = transform.position;
-        currentSpeed *= 10000f;
-        speedText.text = currentSpeed.ToString();
+        //Speed Show
+        while (true) 
+        {
+            currentSpeed = (transform.position - lastPosition).magnitude;
+            lastPosition = transform.position;
+            currentSpeed *= 1000f;
+            speedTextInt = (int)currentSpeed;
+            speedText.text = speedTextInt.ToString();
+            yield return new WaitForSeconds(0.2f);
+        }
     }
 }
+        
+        
+        
