@@ -1,15 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Player_Movement : MonoBehaviour
 {
+    [Header("Input Values")]
     public float speed = 6.0f;
-    public float jumpSpeed = 8.0f;
     public float gravity = 20.0f;
 
+
+    [Header("Base Movement")]
     private Vector3 moveDirection = Vector3.zero;
     private CharacterController controller;
+
+    float horizontalInput;
+    float verticalInput;
+
+    public Transform orientation;
+
+
+    [Header("Indicators")]
+    private float currentSpeed;
+    Vector3 lastPosition = Vector3.zero;
+    public TextMeshProUGUI speedText;
+
+
+
 
     void Start()
     {
@@ -18,19 +35,33 @@ public class Player_Movement : MonoBehaviour
 
     void Update()
     {
+        Move();
+    }
+    private void LateUpdate()
+    {
+        Calculations();
+    }
+
+    void Move() 
+    {
         if (controller.isGrounded)
         {
-            moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
-            moveDirection = transform.TransformDirection(moveDirection);
+            horizontalInput = Input.GetAxis("Horizontal");
+            verticalInput = Input.GetAxis("Vertical");
+            moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
             moveDirection *= speed;
-
-            if (Input.GetButton("Jump"))
-            {
-                moveDirection.y = jumpSpeed;
-            }
         }
 
         moveDirection.y -= gravity * Time.deltaTime;
         controller.Move(moveDirection * Time.deltaTime);
+
+
+    }
+    void Calculations() 
+    {
+        currentSpeed = (transform.position - lastPosition).magnitude;
+        lastPosition = transform.position;
+        currentSpeed *= 10000f;
+        speedText.text = currentSpeed.ToString();
     }
 }
