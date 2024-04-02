@@ -28,6 +28,11 @@ public class Player_Movement : MonoBehaviour
 
 
 
+    public AnimationCurve walkSpeed;
+    public AnimationCurve runSpeed;
+    public bool running;
+    public float walkTimer;
+    public float runTimer;
 
     void Start()
     {
@@ -39,7 +44,8 @@ public class Player_Movement : MonoBehaviour
     {
         Move();
     }
-   
+        
+        
 
     void Move() 
     {
@@ -54,7 +60,43 @@ public class Player_Movement : MonoBehaviour
 
         moveDirection.y -= gravity * Time.deltaTime;
         controller.Move(moveDirection * Time.deltaTime);
+
+
+        // Curve Implementation
+        if (horizontalInput != 0 || verticalInput != 0) 
+        {
+            if (Input.GetKeyDown(KeyCode.LeftShift)) 
+            {
+                running = true;
+                runTimer += Time.deltaTime;
+            }
+            walkTimer += Time.deltaTime;
+        }
+        else 
+        {
+            walkTimer = 0f;
+            running = false;
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            running = false;
+            runTimer = 0f;
+        }
+        if (running)
+        {
+            runTimer += Time.deltaTime;
+            speed = runSpeed.Evaluate(runTimer);
+        }
+        else 
+        {
+            speed = walkSpeed.Evaluate(walkTimer);
+        }
         
+
+
+
+
 
     }
     IEnumerator Calculations() 

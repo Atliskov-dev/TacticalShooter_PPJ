@@ -12,7 +12,6 @@ public class WeaponSway : MonoBehaviour
 
     private float xRotation = 0f;
     private float yRotation = 0f;
-    private float zRotation = 0f;
     private float horizontalInput;
 
     public float smoothness = 5f; // Adjust the smoothness factor to control the smoothing amount
