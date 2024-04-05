@@ -15,15 +15,6 @@ public class CameraShake : MonoBehaviour
 
     float v;
 
-    public float traumaAmount;
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.T)) 
-        {
-            MakeTrauma(traumaAmount);
-        
-        }
-    }
 
     public void MakeTrauma(float trauma_multiplier)
     {
@@ -38,7 +29,7 @@ public class CameraShake : MonoBehaviour
         float offsetY = trauma * shakeMult * Random.Range(-1f, 1f) * verticalMult;
 
 
-        transform.localPosition = new Vector3(offsetX, offsetY, 0);
+        //transform.localPosition = new Vector3(offsetX, offsetY, 0);
 
         transform.localRotation = Quaternion.Euler(offsetX, offsetY, 0);
     }
