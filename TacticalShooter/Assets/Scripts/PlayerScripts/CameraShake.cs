@@ -4,34 +4,39 @@ using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
-    public float trauma = 0;
+    public float shakeDuration = 0.1f;
+    public float shakeAmount = 0.1f;
 
-    public float shakeMult = 0.5f;
-    public float smoothTime = 0.33f;
-    public float horizontalMult = 0.8f;
-    public float verticalMult = 1.33f;
+    private float shakeTimer = 0f;
+    private Quaternion originalRotation;
 
-    public const float MAX_TRAUMA = 4f;
-
-    float v;
-
-
-    public void MakeTrauma(float trauma_multiplier)
+    void Start()
     {
-        trauma = trauma_multiplier;
+        originalRotation = transform.localRotation;
     }
 
-    void LateUpdate()
+    void Update()
     {
-        trauma = Mathf.SmoothDamp(trauma, 0, ref v, smoothTime, 10, Time.unscaledDeltaTime);
+        if (shakeTimer > 0)
+        {
+            // Shake the camera rotationally
+            float shakeAngle = Random.Range(-1f, 1f) * shakeAmount;
+            Quaternion shakeRotation = Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, shakeAngle);
+            transform.localRotation = originalRotation * shakeRotation;
 
-        float offsetX = trauma * shakeMult * Random.Range(-1f, 1f) * horizontalMult;
-        float offsetY = trauma * shakeMult * Random.Range(-1f, 1f) * verticalMult;
-
-
-        //transform.localPosition = new Vector3(offsetX, offsetY, 0);
-
-        transform.localRotation = Quaternion.Euler(offsetX, offsetY, 0);
+            shakeTimer -= Time.deltaTime;
+        }
+        else
+        {
+            // Reset the camera rotation
+            shakeTimer = 0f;
+            
+        }
     }
 
+    public void StartShake(float duration)
+    {
+        shakeDuration = duration;
+        shakeTimer = duration;
+    }
 }

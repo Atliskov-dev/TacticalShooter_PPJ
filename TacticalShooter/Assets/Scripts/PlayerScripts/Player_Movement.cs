@@ -21,7 +21,7 @@ public class Player_Movement : MonoBehaviour
 
 
     [Header("Indicators")]
-    private float currentSpeed;
+    public float currentSpeed;
     Vector3 lastPosition = Vector3.zero;
     public TextMeshProUGUI speedText;
     int speedTextInt;
