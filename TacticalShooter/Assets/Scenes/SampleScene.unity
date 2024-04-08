@@ -2830,6 +2830,10 @@ MonoBehaviour:
   bobbing: {fileID: 330585549}
   movement: {fileID: 2126148003}
   mainCamera: {fileID: 330585546}
+  volume: {fileID: 832575518}
+  isShooting: 0
+  blurFloat: 0
+  blurInt: 0
 --- !u!1 &1818552924
 GameObject:
   m_ObjectHideFlags: 0
