@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CamNoise : MonoBehaviour
+public class NoiseIntoCam : MonoBehaviour
 {
     // Intensity of the noise
     public float noiseIntensity;
@@ -18,16 +18,16 @@ public class CamNoise : MonoBehaviour
 
     public float speedCurveWalk;
     public float intensityCurveWalk;
-           
+
     public float speedCurveRun;
     public float intensityCurveRun;
-    
+
     public Player_Movement movement;
 
     public float timeIntense;
     public float timeSpeed;
 
-     
+
     void Start()
     {
         initialRotation = transform.rotation;
@@ -45,28 +45,28 @@ public class CamNoise : MonoBehaviour
         // Apply noise to the initial rotation
         transform.rotation = initialRotation * noiseRotation;
 
-   
 
-        if (movement.running) 
+
+        if (movement.running)
         {
-            noiseIntensity = Mathf.Lerp(noiseIntensity, intensityCurveRun , timeIntense);
+            noiseIntensity = Mathf.Lerp(noiseIntensity, intensityCurveRun, timeIntense);
             //noiseSpeed = Mathf.Lerp(noiseSpeed, speedCurveRun, timeSpeed); 
         }
-        else 
+        else
         {
-            if (movement.currentSpeed > 10) 
+            if (movement.currentSpeed > 10)
             {
                 noiseIntensity = Mathf.Lerp(noiseIntensity, intensityCurveWalk, timeIntense);
                 //noiseSpeed = Mathf.Lerp(noiseSpeed, speedCurveWalk, timeSpeed);
 
             }
 
-            if (movement.currentSpeed <= 10) 
+            if (movement.currentSpeed <= 10)
             {
                 noiseIntensity = Mathf.Lerp(noiseIntensity, intensityCurveIdle, timeIntense);
                 //noiseSpeed = Mathf.Lerp(noiseSpeed, speedCurveIdle, timeSpeed);
             }
-        
+
         }
     }
 }
